@@ -60,6 +60,15 @@ https://yexithu.github.io/WebCourse/hwI/index.html
 作业发布在github repo
 https://github.com/yexithu/WebCourse
 
+###CSS 和 HTML检查
+利用检查工具检查
+####html
+![](http://i.imgur.com/pCMLKdC.jpg)
+可知html通过检查
+
+####css
+![](http://i.imgur.com/khl51ef.jpg)
+可知css通过检查
 
 ##提高要求完成情况
 完成了适配移动端的要求
