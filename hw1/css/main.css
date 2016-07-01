@@ -5,7 +5,12 @@
   padding: 0;
 }
 
-@media (min-width: 720px) {
+@media (min-width: 960px) {
+
+	html {
+
+	}
+
 	#header {
 	    background: url(../img/headbackground.jpg);
 	    /*background-color: rgba(0,0,0,0.5);*/
@@ -55,6 +60,139 @@
 		background-color: white;
 	    margin-left: 30%;
 	    width: 70%;
+	}
+
+	/*content */
+		#content .list {
+			margin-top: 100px;
+			margin-left: 10%;
+			margin-right: 10%;
+		}
+
+		#content .preview {
+			margin-top: 60px;
+			margin-bottom: 60px;
+		}
+
+		/*content preview*/
+			.preview h2 {
+				font-size: 2em;
+				margin-bottom: 0.8em;
+				color: #787878;
+			}
+
+			.preview h3 {
+				font-size: 1.5em;
+				margin-bottom: 0.8em;
+				color: #949494;
+			}
+
+			.preview p {
+				font-size: 1.2em;
+				margin-left: 5px;
+				margin-bottom: 30px;
+				color: #A2A2A2;
+			}
+
+			.preview img {
+				width: 80%;
+				margin-left: 10%;
+				margin-right: 10%;
+				border: 2px #EFEFEF solid;
+				padding: 2px;
+				margin-bottom: 30px;
+			}
+
+			.preview a {
+				display: block;
+				border: 3px #EFEFEF solid;
+				color: #787878;
+				background-color: #FFFFFF;
+				border-radius: 3px;
+				font-size: 1.5em;
+				text-decoration: none;
+				margin-left: 5px;
+				margin-bottom: 80px;
+				width: 2em;
+				padding: 5px 15px 5px 15px;
+			}
+
+			.preview a:hover {
+				border-color: #49BF9D;
+				color: #49BF9D;	
+			}
+
+			.preview hr {
+				width: 100%;
+				color: black;
+				border: 1px #EFEFEF solid;
+			}
+
+		/*content preview*/
+	/*content */
+
+	#footer {
+		position: fixed;
+		width: 30%;
+		bottom: 0%;
+		text-align: right;
+	}
+		#footer h2 {
+			color: white;
+			font-size: 20px;
+			margin-bottom: 5%;
+			margin-right: 17%;
+		}
+}
+
+
+@media (max-width: 960px) {
+	#header {
+	    background: url(../img/headbackground.jpg);
+	    color: white;
+	    width: 100%;
+	    padding-top: 30px;
+	}
+
+	/*header */
+		#header-info {
+			text-align: center;
+			padding-bottom: 10px;
+		}
+		#portrait {
+			border-radius: 100%;
+			width: 100px;
+		}
+		#infotext {
+			margin-top: 10px;
+			margin-right: 2%;
+		}
+		#infotext h1 {
+			margin-top: 20px;
+		}
+		#infotext p {
+			color: #E0E0E0;
+			margin-top: 20px;
+			font-size: 20px;
+			padding-bottom: 20px;
+		}
+		#infotext a {
+			display: inline;
+			text-decoration: none;
+			color: white;
+			padding-left: 20px;
+			font-size: 20px;
+		}
+		#infotext a:hover {
+			color: #0F0F0F;	
+		}
+	/*header */
+
+
+	#content {
+		background-color: white;
+	    /*margin-left: 30%;*/
+	    /*width: 70%;*/
 	}
 
 	/*content */
