@@ -2,12 +2,13 @@ function diff(a, b) {
 	//Map a name in a to a bool
 	var aMap = {};
 
-	for (var i in a) {
+	var i = 0;
+	for (i in a) {
 		aMap[a[i].name] = true;
 	}
 
 	var result = [];
-	for (var i in b) {
+	for (i in b) {
 		if(aMap[b[i].name]) {
 			continue;
 		}
@@ -57,3 +58,5 @@ function test() {
 	];
 	console.log(diff(a, b));
 }
+
+test()

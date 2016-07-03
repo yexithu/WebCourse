@@ -43,11 +43,11 @@ function forecast(strength, team) {
 
 		var l = left.teams.length;
 		parent.probs = new Array(2 * l);
-		for (var i = 0; i < 2 * l; ++i) {
+		var i = 0;
+		for (i = 0; i < 2 * l; ++i) {
 			parent.probs[i] = 0;
 		} 
-
-		for (var i = 0; i < l; ++i) {
+		for (i = 0; i < l; ++i) {
 			for (var j = 0; j < l; ++j) {
 				var a = strength[left.teams[i]];
 				var b = strength[right.teams[j]];
@@ -74,12 +74,13 @@ function forecast(strength, team) {
 	var nodes  = new Array(2 * count - 1);
 	
 	//Generate the bottom nodes
-	for (var i = 0; i < count; ++i) {
+	var i = 0;
+	for (i = 0; i < count; ++i) {
 		nodes[count - 1 + i] = new node(names[i]);
 	}
 
 	//behave like a binary heap
-	for (var i = count - 2; i >= 0; --i) {
+	for (i = count - 2; i >= 0; --i) {
 		nodes[i] = nodeProduct(nodes[2 * i + 1],  nodes[2 * i + 2]);
 	}
 
@@ -108,9 +109,9 @@ function test() {
 		Iceland: 100
 	};
 
-	// for (var value in names) {
-	// 	strength[names[value]] = 0;
-	// }
-	strength['England'] = 0;
+	for (var value in names) {
+		strength[names[value]] = 0;
+	}
+	strength['England'] = 100;
 	console.log(forecast(strength, 'England'));
 }

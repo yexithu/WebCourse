@@ -28,7 +28,6 @@ function search(students, query) {
 		break;
 	default:
 		throw "Wrong type of input";
-		break;
 	}
 
 	var result = [];
