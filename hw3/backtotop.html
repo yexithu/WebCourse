@@ -1,0 +1,22 @@
+<html>
+  <head>
+  	<title>BackToTop Test</title>
+  	<script type="text/javascript">
+  		function createBody () {
+  			var body = document.getElementById('body');
+  			for (var i = 0; i < 100; ++i) {
+  				var h = document.createElement('h1');	
+  				h.innerHTML = 'So many titles';
+  				body.appendChild(h);
+  			}
+  		}
+  	</script>
+  	<script type="text/javascript" src="backtotop.js"></script>
+  </head>
+  <body id="body" style="text-align: center">
+  </body>
+  <script type="text/javascript">
+  		createBody();
+  		BackToTop.init({x: 100, y: 100});
+  </script>
+</html>
