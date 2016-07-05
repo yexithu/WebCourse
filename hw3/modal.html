@@ -1,0 +1,55 @@
+<html>
+  <head>
+  	<title>Test Alert</title>
+  	<script type="text/javascript" src="modal.js"></script>
+  </head>
+  <body style="text-align: center; margin-top: 200px">
+  	<div id="args">
+  		<label>Content</label> <br />
+  		<input type="input" id="content"> <br /> <br />
+  		<label>CloseKey</label> <br />
+  		<input type="input" id="close-key"> <br /> <br />
+  		<input type="checkbox" id="draggable"> <label>Draggable</label><br /> <br />
+  		<button type="button" id="button">Alert</button>
+  	</div>
+  	<script type="text/javascript">
+
+  		function addListener(element, type, listener) {
+			if (element.addEventListener) {
+				element.addEventListener(type, listener, false);
+			} else if (element.attachEvent) {
+				element.attachEvent('on' + type, listener);
+			} else {
+				element["on" + type] = listener;
+			}
+		}
+
+  		var button = document.getElementById('button');
+  		addListener(button, 'click', function() {
+  			var contentInput = document.getElementById('content');
+  			var closeKeyInput = document.getElementById('close-key');
+  			var draggableInput = document.getElementById('draggable');
+
+  			var content = contentInput.value;
+  			var closeKey = closeKeyInput.value;
+  			var draggable = draggableInput.checked;
+
+  			var temp = new Object;
+  			if (closeKey.length > 0) {
+  				temp.closeKey = parseInt(closeKey);
+  				Modal.init(temp);
+  			}
+
+  			temp = new Object;
+  			temp.draggable = draggable;
+  			Modal.init(temp);
+
+  			temp = new Object;
+  			if (content.length > 0) {
+  				temp.content = content;
+  				Modal.init(temp);
+  			}
+  		});
+  	</script>
+  </body>
+</html>

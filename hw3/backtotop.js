@@ -1,5 +1,10 @@
 var BackToTop = {
+
 	div: null,
+
+	topKey: 27,
+
+	minOffset: 200,
 
 	appendDiv: function(arg) {
 		var body = document.body || document.getElementsByTagName('body')[0];
@@ -24,6 +29,16 @@ var BackToTop = {
 		};
 
 		body.appendChild(this.div);
+
+		this.addListener(body, 'keydown', function(e) {
+			var y = BackToTop.getY();
+			if (y < BackToTop.minOffset) {
+				return;
+			}
+			if (e.keyCode === BackToTop.topKey) {
+				BackToTop.goToTop();
+			};
+		});
 	},
 
 	stylesheet : '#back-to-top {\
@@ -66,14 +81,18 @@ var BackToTop = {
 
 	},
 
+	getY : function() {
+		var y = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+		return y;
+	},
+
 	onScroll: function() {
 		if (this.div === null) {
 			return;
 		}
-		var y = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
-		var minOffset = 200;
+		var y = BackToTop.getY();		
 		// console.log(h);
-		if (y < minOffset) {
+		if (y < BackToTop.minOffset) {
 			BackToTop.div.style.display = "none";
 		} else {
 			BackToTop.div.style.display = "block";
