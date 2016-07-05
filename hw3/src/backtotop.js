@@ -100,7 +100,15 @@ var BackToTop = {
 	},
 
 	goToTop: function() {
-		window.scrollTo(0, 0);
+		var y = BackToTop.getY();
+		console.log('Here y ' + y);
+		var temp = y - 100;
+		if (temp < 0) {
+			window.scrollTo(0, 0);
+			return;
+		}
+		window.scrollTo(0, temp);
+		setTimeout(BackToTop.goToTop, 10);
 	},
 
 	init: function(arg) {

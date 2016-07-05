@@ -6,7 +6,7 @@
   			var body = document.getElementById('body');
   			for (var i = 0; i < 100; ++i) {
   				var h = document.createElement('h1');	
-  				h.innerHTML = 'So many titles';
+  				h.innerHTML = 'I am Title No. ' + i;
   				body.appendChild(h);
   			}
   		}
@@ -17,6 +17,8 @@
   </body>
   <script type="text/javascript">
   		createBody();
-  		BackToTop.init({x: 100, y: 100});
+  		//BackToTop.init({x: 100, y: 100});
+      //BackToTop.init({LeftUp: true});
+      BackToTop.init({RightDown: true});
   </script>
 </html>
