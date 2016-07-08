@@ -1,27 +1,36 @@
-var socketAddress = 'https://wall.cgcgbcbc.com/';
-var historyAddress = 'https://wall.cgcgbcbc.com/api/messages?num=3';
+var Backend = {
 
-var socket = io.connect(socketAddress);
+    socketAddress: 'https://wall.cgcgbcbc.com/',
 
-socket.on('connect', function () {
-    console.log('connected');
-});
+    historyAddress: 'https://wall.cgcgbcbc.com/api/messages?num=3',
 
-socket.on('new message', function (message) {
-    console.log('new message');
-    console.log(message);
-});
+    socket: null,
 
-socket.on('admin', function (message) {
-  	console.log('admin');
-  	console.log(message);
-});
+    start: function () {
+        this.socket = io.connect(this.socketAddress);
+    },
 
-$('body').on('keydown', function (e) {
-    if (e.keyCode == 13) {
-        $.get(historyAddress, function(data, status){
-        console.log('Status: ' + status);
-        console.log(data);
+    setConnectedHandler: function (handler) {
+        this.socket.on('connect', handler);
+    },
+
+    setNewMessageHandler: function (handler) {
+        this.socket.on('new message', handler);
+    },
+
+    setAdminHandler: function (handler) {
+        this.socket.on('admin', handler);
+    },
+
+    setTestHandler: function (handler) {
+        $('body').on('keydown', function (e) {
+            if (e.keyCode == 13) {
+                $.get(this.historyAddress, handler);
+            }
         });
+    },
+
+    fetchHistory: function (handler) {
+        $.get(this.historyAddress, handler);
     }
-});
+};

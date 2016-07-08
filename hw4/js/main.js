@@ -1,0 +1,206 @@
+var Manager = {
+
+	// constants
+	MININTERVAL: 1200,
+
+	WRAPPERWIDTH: 30,
+
+	TOPPOS: [2, 34, 66],
+
+	MAXNUM: 3,
+
+	HIDEANIMATE: {
+		width: '0',
+		height: '0',
+		padding: '0',
+		opacity: '0',
+	},
+
+	SHOWANIMATE: {
+		width: '90%',
+		height: '30%',
+		paddingLeft: '5%',
+		paddingRight: '5%',
+		opacity: '1',
+	},
+
+	DURATION: 500,
+
+	refreshable: true,
+
+	msgList: null,
+
+	nicknameList: null,
+
+	contentList: null,
+
+	headimgList: null,
+
+	msgQueue: [],
+
+	timerID: null,
+
+	topIndex: 0,
+
+	safeTimeout: function (callback, interval) {
+		// if (timerID !== null) {
+		// 	clearTimeout(this.timerID);
+		// }
+		this.timerID = setTimeout(callback, interval);
+	},
+
+	i: function (i) {
+		return ((this.topIndex + i) % (this.MAXNUM + 1));
+	},
+
+	ni: function () {
+		return ((this.topIndex + this.MAXNUM) % (this.MAXNUM + 1));
+	},
+
+	hideNI: function () {
+		$(this.msgList[this.ni()]).css({'left': '0%', 'top': '2%', 
+		'width' : '0', 'height' : '0', 'padding' : '0', 'opacity' : '0'});
+	},
+
+	initWrapperPos: function () {
+		if (this.msgList === null) {
+			throw "Joking, it can not be wrong";
+		}
+		console.log('Init Pos');
+		console.log(this.msgList);
+		this.topIndex = 0;
+		var i;
+		for (i = 0; i < this.MAXNUM; ++i) {
+			$(this.msgList[i]).css('top', this.TOPPOS[i] + '%');
+		}
+		this.hideNI();
+	},
+
+	hide: function () {
+		if (arguments.length === 1) {
+			$(this.msgList[this.i(arguments[0])]).animate(this.HIDEANIMATE, 
+				this.DURATION);
+			return;
+		}
+
+		var i;
+		for (i = 0; i < this.MAXNUM; ++i) {
+			$(this.msgList[this.i(i)]).animate(this.HIDEANIMATE, 
+				this.DURATION);
+		}
+	},
+
+	set: function (data) {
+		if (arguments.length === 2) {
+			$(this.nicknameList[this.i(arguments[1])]).html(data.nickname);
+			$(this.contentList[this.i(arguments[1])]).html(data.content);
+			$(this.headimgList[this.i(arguments[1])]).attr('src', data.headimgurl);
+			return;
+		}
+
+		var i;
+		for (i = 0; i < this.MAXNUM; ++i) {
+			$(this.nicknameList[this.i(i)]).html(data[i].nickname);
+			$(this.contentList[this.i(i)]).html(data[i].content);
+			$(this.headimgList[this.i(i)]).attr('src', data[i].headimgurl);
+		}
+	},
+
+	show: function () {
+		if (arguments.length === 1) {
+			$(this.msgList[this.i(arguments[0])]).animate(this.SHOWANIMATE, 
+				this.DURATION);
+			return;
+		}
+
+		var i;
+		for (i = 0; i < this.MAXNUM; ++i) {
+			$(this.msgList[this.i(i)]).animate(this.SHOWANIMATE, 
+				this.DURATION);
+		}
+	},
+
+	onGetHistory: function (data, status) {
+		Manager.hide();
+		Manager.set(data);
+		Manager.show();
+	},
+
+	showHistory: function () {
+		Backend.fetchHistory(this.onGetHistory);
+	},
+	
+	onTimeOut: function () {
+
+	},
+
+	updateMessage: function(message) {
+		console.log('UPDATA');
+		$(this.msgList[this.ni()]).animate({
+			width: '90%',
+			height: '30%',
+			paddingLeft: '5%',
+			paddingRight: '5%',
+			opacity: '1',
+			top: '2%',
+			left: '0',
+		}, this.DURATION);
+
+		this.set(message, this.ni());
+
+		var i;
+		for (i = 0; i < this.MAXNUM - 1; ++i) {
+			$(this.msgList[this.i(i)]).animate({
+				top: '+=32%',
+			}, this.DURATION);
+		}
+
+		$(this.msgList[this.i(this.MAXNUM - 1)]).animate({
+			width: '0',
+			height: '0',
+			top: '96%',
+			left: '95%',
+			opacity: '0',
+		}, this.DURATION);
+	},
+
+	manageMessage: function (message) {
+		this.msgQueue.push(message);
+		if (this.refreshable) {
+			this.refreshable = false;
+			// setTimeout(Manager.onTimeOut, this.MININTERVAL);
+			this.updateMessage(message);
+		}
+	},
+
+	onNewMessage: function (message) {
+		console.log(message);
+		Manager.manageMessage(message);
+	},
+
+	init: function () {
+		console.log('init');
+		//get all wrappers
+		this.msgList = $('.msg');
+		this.nicknameList = $('.msg-nickname');
+		this.contentList = $('.msg-detail');
+		this.headimgList = $('.msg-headimg');
+		//set wrappers to aproximate place
+		this.initWrapperPos();
+
+		this.showHistory();
+
+		Backend.start();
+
+		Backend.setConnectedHandler((function (){ console.log('connected')}));
+		Backend.setNewMessageHandler(this.onNewMessage);
+	},
+
+	start: function () {
+		console.log('start');
+		this.init();
+	},
+
+};
+
+Manager.start();
