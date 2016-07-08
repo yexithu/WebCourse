@@ -1,3 +1,5 @@
+var weface = new Weface();
+
 var Manager = {
 
 	// constants
@@ -153,6 +155,7 @@ var Manager = {
 	onGetHistory: function (data, status) {
 		for (var i in data) {
 			data[i].content = twemoji.parse(data[i].content);
+			data[i].content = weface.compile(data[i].content);
 		}
 		var time = 0;
 		time += Manager.hide();
@@ -258,8 +261,12 @@ var Manager = {
 	},
 
 	onNewMessage: function (message) {
-		message.content = twemoji.parse(message.content);
-		Manager.manageMessage(message);
+		if (message.nickname==="Re") {
+			console.log('New');
+			message.content = twemoji.parse(message.content);
+			message.content = weface.compile(message.content);
+			Manager.manageMessage(message);
+		}
 	},
 
 	initPara: function () {
@@ -286,6 +293,7 @@ var Manager = {
 
 	onAdminMsg: function (message) {
 		message.content = twemoji.parse(message.content);
+		message.content = weface.compile(message.content);
 		if (Manager.adminFlag > 0) {
 			Manager.hideAdmin();
 		}

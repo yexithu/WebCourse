@@ -139,6 +139,11 @@ html, head, body, header, footer, div, section, p, img {
 	width: 6.5vh;
 }
 
+.msg-detail .emoji {
+	width: 6.5vh;
+	height: 6.5vh;
+}
+
 #admin-msg {
 	position: absolute;
 	width: 100%;
@@ -184,5 +189,10 @@ html, head, body, header, footer, div, section, p, img {
 }
 
 #admin-detail .emoji {
+	width: 8.5vh;
+}
+
+#admin-detail .wechatface {
+	height: 8.5vh;
 	width: 8.5vh;
 }
