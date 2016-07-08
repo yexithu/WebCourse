@@ -9,6 +9,8 @@ var Manager = {
 
 	SCROLLTIME: 2000,
 
+	NOTICESCROLLTIME: 20000,
+
 	TOPPOS: [2, 34, 66],
 
 	MAXNUM: 3,
@@ -30,7 +32,7 @@ var Manager = {
 
 	DURATION: 500,
 
-	ADMINLAST: 5000,
+	ADMINLAST: 10000,
 
 	refreshable: true,
 
@@ -41,6 +43,8 @@ var Manager = {
 	contentList: null,
 
 	headimgList: null,
+
+	loadingList: null,
 
 	adminMsg: null,
 
@@ -106,17 +110,27 @@ var Manager = {
 
 	set: function (data) {
 		if (arguments.length === 2) {
+			$(this.loadingList[arguments[1]]).css("display", 'block');
 			$(this.nicknameList[arguments[1]]).html(data.nickname);
 			$(this.contentList[arguments[1]]).html(data.content);
 			$(this.headimgList[arguments[1]]).attr('src', data.headimgurl);
+			$(this.headimgList[arguments[1]]).load(function() {
+				$(Manager.loadingList[arguments[1]]).css('display', 'none');
+			});
 			return;
 		}
 
 		var i;
 		for (i = 0; i < this.MAXNUM; ++i) {
+			$(this.loadingList[this.i(i)]).fadeIn("display", 'block');
 			$(this.nicknameList[this.i(i)]).html(data[i].nickname);
 			$(this.contentList[this.i(i)]).html(data[i].content);
 			$(this.headimgList[this.i(i)]).attr('src', data[i].headimgurl);
+			$(this.headimgList[this.i(i)]).load(function() {
+				console.log('Load ok');
+				// $(Manager.loadingList[Manager.i(i)]).fadeOut("fast");
+				$(Manager.loadingList[Manager.i(i)]).css('display', 'none');
+			});
 		}
 	},
 
@@ -244,9 +258,7 @@ var Manager = {
 	},
 
 	onNewMessage: function (message) {
-		if (message.nickname === "Re") {
-			Manager.manageMessage(message);
-		}
+		Manager.manageMessage(message);
 		// Manager.manageMessage(message);
 	},
 
@@ -273,8 +285,6 @@ var Manager = {
 	},
 
 	onAdminMsg: function (message) {
-		console.log('Admin');
-		console.log(message);
 		if (Manager.adminFlag > 0) {
 			Manager.hideAdmin();
 		}
@@ -290,6 +300,18 @@ var Manager = {
 		return;
 	},
 
+	initNotice: function () {
+		var notice = $('#notice-detail');
+		$(notice).html('这是一条滚动的公告，请告诉软件工程公众号你要上墙');
+		var width = $(notice).outerWidth() + 500;
+		console.log('width ' + width);
+		var callback = (function () {
+			$(notice).css('left', '100%');
+			$(notice).animate({left: '-' + width + 'px'}, Manager.NOTICESCROLLTIME, 'linear', callback);
+		});
+		callback();
+	},
+
 	init: function () {
 		console.log('init');
 		//get all wrappers
@@ -297,11 +319,14 @@ var Manager = {
 		this.nicknameList = $('.msg-nickname');
 		this.contentList = $('.msg-detail');
 		this.headimgList = $('.msg-headimg');
+		this.loadingList = $('.msg-loading');
 		this.adminMsg = $('#admin-msg');
+
 		//set wrappers to aproximate place
 		this.initWrapperPos();
 		this.initAdmin();
 		this.initPara();
+		this.initNotice();
 		this.showHistory();
 		Backend.start();
 		Backend.setConnectedHandler((function (){ console.log('connected')}));

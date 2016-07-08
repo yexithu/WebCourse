@@ -1,6 +1,7 @@
 <html>
   <head>
   	<title>We Wall</title>
+    <meta charset="utf-8" />
   	<script type="text/javascript" src="js/socket.io.js"></script>
   	<script type="text/javascript" src="js/jquery.min.js"></script>
   	<link rel="stylesheet" type="text/css" href="css/main.css" />
@@ -9,10 +10,13 @@
   	<header id="header"></header>
   	<!-- <div id="background"></div> -->
   	<div id="main">
-  		<section id="notice"></section>
+  		<section id="notice">
+        <div id="notice-detail"></div>
+      </section>
   		<section id="msg-container">
   			<div class="msg" index="0">
   				<div class="avater-wrapper">
+            <img src="img/loading.gif" class="msg-loading">
             <img src="" alt="HEAD" class="msg-headimg">
           </div>
   				<div class="msg-content">
@@ -24,6 +28,7 @@
   			</div>
   			<div class="msg" index="1">
   				<div class="avater-wrapper">
+            <img src="img/loading.gif" class="msg-loading">
             <img src="" alt="HEAD" class="msg-headimg">
           </div>
   				<div class="msg-content">
@@ -35,6 +40,7 @@
   			</div>
   			<div class="msg" index="2">
   				<div class="avater-wrapper">
+            <img src="img/loading.gif" class="msg-loading">
             <img src="" alt="HEAD" class="msg-headimg">
           </div>
   				<div class="msg-content">
@@ -46,6 +52,7 @@
   			</div>
   			<div class="msg" index="3">
   				<div class="avater-wrapper">
+            <img src="img/loading.gif" class="msg-loading">
             <img src="" alt="HEAD" class="msg-headimg">
           </div>
   				<div class="msg-content">
