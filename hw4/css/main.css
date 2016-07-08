@@ -94,9 +94,6 @@ html, head, body, header, footer, div, section, p, img {
 	margin-top: 25%;
 }
 
-.msg-loading{
-
-}
 .msg-content{
 	position: absolute;
 	height: 100%;
@@ -130,15 +127,16 @@ html, head, body, header, footer, div, section, p, img {
 .msg-detail, #admin-detail{
 	position: absolute;
 	top: 0;
-	/*margin-top: calc(85* 0.3 * 0.35%) ;*/
-	/*height: 65%;*/
-	/*background-color: black;*/
 	width: 100%;
 	color: rgb(57, 69, 79);
 	font-size: 7vh;
 	word-wrap:break-word;
 	overflow: hidden;
 	/*background-color: rgba(255, 255, 255, 0.9);*/
+}
+
+.msg-detail .emoji {
+	width: 6.5vh;
 }
 
 #admin-msg {
@@ -175,9 +173,6 @@ html, head, body, header, footer, div, section, p, img {
 	height: 100%;
 }
 
-#admin-msg-wrapper {
-}
-
 #admin-nickname {
 	padding-top: 1vh;
 	font-size: 8vh;
@@ -186,4 +181,8 @@ html, head, body, header, footer, div, section, p, img {
 #admin-detail {
 	padding-top: 2vh;
 	font-size: 9vh;
+}
+
+#admin-detail .emoji {
+	width: 8.5vh;
 }

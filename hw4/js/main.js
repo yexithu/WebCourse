@@ -151,6 +151,9 @@ var Manager = {
 	},
 
 	onGetHistory: function (data, status) {
+		for (var i in data) {
+			data[i].content = twemoji.parse(data[i].content);
+		}
 		var time = 0;
 		time += Manager.hide();
 		Manager.set(data);
@@ -195,8 +198,6 @@ var Manager = {
 		console.log('UPDATA');
 		$(this.contentList).stop(true, false);
 		$(this.contentList).css('top', '0');
-		// console.log('TOP ' + Manager.topIndex);
-		// console.log('NI ' + Manager.ni());
 		$(this.msgList[this.ni()]).animate({
 			width: '90%',
 			height: '30%',
@@ -211,7 +212,6 @@ var Manager = {
 
 		var i;
 		for (i = 0; i < this.MAXNUM - 1; ++i) {
-			// console.log('This i ' + this.i(i));
 			$(this.msgList[this.i(i)]).animate({
 				top: '+=32%',
 			}, this.DURATION);
@@ -258,8 +258,8 @@ var Manager = {
 	},
 
 	onNewMessage: function (message) {
+		message.content = twemoji.parse(message.content);
 		Manager.manageMessage(message);
-		// Manager.manageMessage(message);
 	},
 
 	initPara: function () {
@@ -285,6 +285,7 @@ var Manager = {
 	},
 
 	onAdminMsg: function (message) {
+		message.content = twemoji.parse(message.content);
 		if (Manager.adminFlag > 0) {
 			Manager.hideAdmin();
 		}
