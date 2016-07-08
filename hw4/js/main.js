@@ -5,6 +5,8 @@ var Manager = {
 
 	WRAPPERWIDTH: 30,
 
+	STILLTIME: 1000,
+
 	SCROLLTIME: 2000,
 
 	TOPPOS: [2, 34, 66],
@@ -24,9 +26,11 @@ var Manager = {
 		paddingLeft: '5%',
 		paddingRight: '5%',
 		opacity: '1',
-	},
+	},	
 
 	DURATION: 500,
+
+	ADMINLAST: 5000,
 
 	refreshable: true,
 
@@ -37,6 +41,10 @@ var Manager = {
 	contentList: null,
 
 	headimgList: null,
+
+	adminMsg: null,
+
+	adminFlag: 0,
 
 	msgQueue: [],
 
@@ -143,6 +151,7 @@ var Manager = {
 	scrollCallback: function (i, diff) {
 		return (function () {
 			$(Manager.contentList[Manager.i(i)]).css('top', '0');
+			$(Manager.contentList[Manager.i(i)]).animate({top: '-=1px'}, Manager.STILLTIME);
 			$(Manager.contentList[Manager.i(i)]).animate({
 				top: '-=' + diff + 'px',
 			}, Manager.SCROLLTIME, Manager.scrollCallback(i, diff));
@@ -235,13 +244,50 @@ var Manager = {
 	},
 
 	onNewMessage: function (message) {
-		Manager.manageMessage(message);
-		
+		if (message.nickname === "Re") {
+			Manager.manageMessage(message);
+		}
+		// Manager.manageMessage(message);
 	},
 
 	initPara: function () {
 		var height = $(this.msgList[0]).height();		
 		this.detailHeight = height * 0.65;
+	},
+
+	initAdmin: function () {
+		$(this.adminMsg).css({'width': '0', 'height': '0', 'opacity': 0});
+	},
+
+	hideAdmin: function () {
+		$(this.adminMsg).animate({width: 0, height: 0, opacity: 0}, this.DURATION);
+	},
+
+	showAdmin: function () {
+		$(this.adminMsg).animate({width: '100%', height: '40%', opacity: 1}, this.DURATION);
+	},
+
+	setAdmin: function (message) {
+		$('#admin-nickname').html(message.nickname);
+		$('#admin-detail').html(message.content);
+	},
+
+	onAdminMsg: function (message) {
+		console.log('Admin');
+		console.log(message);
+		if (Manager.adminFlag > 0) {
+			Manager.hideAdmin();
+		}
+		Manager.adminFlag += 1;
+		Manager.setAdmin(message);
+		Manager.showAdmin();
+		setTimeout((function () {
+			Manager.adminFlag -= 1;
+			if (Manager.adminFlag === 0) {
+				Manager.hideAdmin();
+			}
+		}), Manager.ADMINLAST);
+		return;
 	},
 
 	init: function () {
@@ -251,13 +297,16 @@ var Manager = {
 		this.nicknameList = $('.msg-nickname');
 		this.contentList = $('.msg-detail');
 		this.headimgList = $('.msg-headimg');
+		this.adminMsg = $('#admin-msg');
 		//set wrappers to aproximate place
 		this.initWrapperPos();
+		this.initAdmin();
 		this.initPara();
 		this.showHistory();
 		Backend.start();
 		Backend.setConnectedHandler((function (){ console.log('connected')}));
 		Backend.setNewMessageHandler(this.onNewMessage);
+		Backend.setAdminHandler(this.onAdminMsg);
 	},
 
 	start: function () {
